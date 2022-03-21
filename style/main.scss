@@ -1,0 +1,140 @@
+@font-face {
+    font-family: 'Source Code Pro';
+    font-style: normal;
+    font-weight: 400;
+    // font-display: swap;
+    src: url("../fonts/SourceCodePro-Medium.ttf");
+    // unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+
+.dark_theme {
+    --bg-color: black;
+    --fg-color: white;
+    --theme-color-1: #ff8000;
+}
+
+.light_theme {
+    --bg-color: white;
+    --fg-color: black;
+    --theme-color-1: #AD0000;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--fg-color);
+    font-family: Source Code Pro, monospace;
+    font-weight: 400;
+    margin: 0;
+}
+
+header {
+    max-width: 2000px;
+    margin: 0 auto;
+    box-shadow: 0px 20px 30px 0px var(--bg-color);
+    z-index: 10;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "logo nav";
+    align-items: center;
+    padding: 4px 8px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: var(--bg-color);
+    h3 {
+        grid-area: logo;
+        margin: 8px;
+    }
+    ul {
+        margin: 8px;
+        grid-area: nav;
+        list-style: none;
+        padding: 0;
+        > li + li {
+            margin-left: 16px;
+        }
+        li {
+            display: inline-block;
+            a {
+                font-size: 1.1rem;
+                color: var(--fg-color);
+                transition: color 0.2s;
+                &:hover, &:focus {
+                    color: var(--theme-color-1);
+                }
+            }
+        }
+    }
+}
+
+@keyframes loading {
+    from { background-color: rgb(128, 128, 128) }
+    to { background-color: var(--fg-color) }
+}
+
+div#loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+div.loading_icon {
+    div.block {
+        animation: loading 1.75s infinite;
+        width: 32px;
+        height: 32px;
+        display: inline-block;
+        background-color: var(--fg-color);
+        @for $i from 1 through 3 {
+            &:nth-child(#{$i}) {
+                animation-delay: $i * 0.25s;
+            }
+        }
+    }
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--fg-color);
+    margin: 16px 0;
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 16px;
+    margin-top: 32px;
+}
+
+div.error_message {
+    display: none;
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+    padding: 4px 8px;
+    p {
+        margin: 8px;
+    }
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+button {
+    transition: all 0.2s;
+    border: 1px solid var(--fg-color);
+    background-color: var(--bg-color);
+    color: var(--fg-color);
+    padding: 4px 8px;
+    &:hover, &:focus {
+        background-color: var(--fg-color);
+        color: var(--bg-color);
+    }
+}
+button:hover, button:focus {
+    cursor: pointer;
+}

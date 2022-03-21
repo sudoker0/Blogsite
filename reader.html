@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blogsite's Viewer</title>
+        <link rel="stylesheet" href="./style/main.css">
+    </head>
+    <body class="dark_theme">
+        <header>
+            <h3>~/Quan's Blogsite</h3>
+            <ul>
+                <li><a href="index.html">Back</a></li>
+            </ul>
+        </header>
+        <main>
+            <noscript>
+                <style>
+                    div#loading {
+                        display: none;
+                    }
+                    div#no_js {
+                        display: block;
+                    }
+                </style>
+                <div id="no_js" class="error_message">
+                    <h1>¯\_(ツ)_/¯</h1>
+                    <h1>We're sorry, but</h1>
+                    <p>To be able to load, read or display blog, JavaScript is required. We might work on a version with don't require JS, but that might be a long time. So for now, please enable it (Don't worry, we'll try to only load resource locally).</p>
+                </div>
+            </noscript>
+            <div id="cannot_load" class="error_message">
+                <h1>¯\_(ツ)_/¯</h1>
+                <h1>We're sorry, but</h1>
+                <p>We cannot load any blog called: "<span id="cannot_load_url"></span>". Sorry.</p>
+            </div>
+            <div id="loading">
+                <p>Please wait while we are getting the latest blog data for you</p>
+                <div class="loading_icon">
+                    <div class="block"></div>
+                    <div class="block"></div>
+                    <div class="block"></div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>Copyright (C) 2022 QuanMCPC</p>
+        </footer>
+        <script src="./plugins/showdown.min.js"></script>
+        <script src="./script/main.js"></script>
+        <script src="./script/render_page/main.js"></script>
+    </body>
+</html>
