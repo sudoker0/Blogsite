@@ -9,6 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const getId = (id) => document.getElementById(id);
+const us_time = "YYYY-MM-DD HH:mm:ss";
+const asia_time = "DD-MM-YYYY HH:mm:ss";
 var IN_ACTION = false;
 var FILTER = {
     title: "",
@@ -36,25 +38,26 @@ function reloadBlogList() {
         var json_data = data;
         var entry = Object.keys(json_data);
         var current_time_stamp = "";
-        entry = entry.sort((a, b) => {
-            var a_time = dayjs(json_data[a].written_on, "DD-MM-YYYY HH:mm:ss");
-            var b_time = dayjs(json_data[b].written_on, "DD-MM-YYYY HH:mm:ss");
+        entry = entry
+            .sort((a, b) => {
+            var a_time = dayjs(json_data[a].written_on, asia_time);
+            var b_time = dayjs(json_data[b].written_on, asia_time);
             return b_time.diff(a_time);
-        }).filter((e) => {
+        })
+            .filter((e) => {
             var item = json_data[e];
             if (item.title.toLocaleLowerCase().indexOf(FILTER.title) == -1)
                 return false;
             if (item.summary.toLocaleLowerCase().indexOf(FILTER.summary) == -1)
                 return false;
-            var from = dayjs(FILTER.start_date, "YYYY-MM-DD HH:mm:ss");
-            var to = dayjs(FILTER.end_date, "YYYY-MM-DD HH:mm:ss");
-            var check = dayjs(item.written_on, "DD-MM-YYYY HH:mm:ss");
+            var from = dayjs(FILTER.start_date, us_time);
+            var to = dayjs(FILTER.end_date, us_time);
+            var check = dayjs(item.written_on, asia_time);
             if (check < from || check > to)
                 return false;
             return true;
         });
-        console.log(current_page * FILTER.max_display, (current_page + 1) * FILTER.max_display);
-        for (var i of entry.slice(current_page * FILTER.max_display, current_page * FILTER.max_display + FILTER.max_display)) {
+        for (var i of entry.slice(current_page * FILTER.max_display, FILTER.max_display * (current_page + 1))) {
             var item = json_data[i];
             var date = item.written_on.split(" ")[0];
             var template = "";
@@ -105,7 +108,7 @@ getId("search_button").addEventListener("click", () => __awaiter(void 0, void 0,
     getId("loading_msg").innerHTML = "Please wait while we're filtering the posts...";
     getId("loading").style.display = "flex";
     getId("cannot_find").style.display = "none";
-    document.querySelectorAll(".refreshing").forEach(e => { e.remove(); });
+    document.querySelectorAll(".refreshing").forEach(e => e.remove());
     const loaded = yield reloadBlogList();
     if (loaded.loaded == 0) {
         getId("cannot_find").style.display = "block";

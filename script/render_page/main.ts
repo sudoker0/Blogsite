@@ -1,3 +1,4 @@
+// ? Get query string
 function getParameterByName(name: string, url = window.location.href) {
     name = name.replace(/[\[\]]/g, '\\$&');
     var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
@@ -6,6 +7,7 @@ function getParameterByName(name: string, url = window.location.href) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
 (async () => {
     const cannot_load = () => {
         document.getElementById("cannot_load_url")!.innerHTML = filename

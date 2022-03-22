@@ -1,4 +1,6 @@
 const getId = (id: string) => document.getElementById(id);
+const us_time = "YYYY-MM-DD HH:mm:ss";
+const asia_time = "DD-MM-YYYY HH:mm:ss";
 
 var IN_ACTION = false;
 
@@ -36,33 +38,38 @@ async function reloadBlogList() {
     var entry: string[] = Object.keys(json_data);
     var current_time_stamp = ""
 
-    entry = entry.sort((a, b) => {
+    entry = entry
+    .sort((a, b) => { // ? Sort the array based on the day is was written on (from latest to oldest)
         //@ts-ignore
-        var a_time = dayjs(json_data[a].written_on, "DD-MM-YYYY HH:mm:ss");
+        var a_time = dayjs(json_data[a].written_on, asia_time);
         //@ts-ignore
-        var b_time = dayjs(json_data[b].written_on, "DD-MM-YYYY HH:mm:ss");
+        var b_time = dayjs(json_data[b].written_on, asia_time);
         return b_time.diff(a_time);
-    }).filter((e) => {
+    })
+    .filter((e) => { // ? Filter the array with the provided filter (title, summary and date)
         var item = json_data[e]
         if (item.title.toLocaleLowerCase().indexOf(FILTER.title) == -1) return false;
         if (item.summary.toLocaleLowerCase().indexOf(FILTER.summary) == -1) return false;
         //@ts-ignore
-        var from = dayjs(FILTER.start_date, "YYYY-MM-DD HH:mm:ss");
+        var from = dayjs(FILTER.start_date, us_time);
         //@ts-ignore
-        var to = dayjs(FILTER.end_date, "YYYY-MM-DD HH:mm:ss");
+        var to = dayjs(FILTER.end_date, us_time);
         //@ts-ignore
-        var check = dayjs(item.written_on, "DD-MM-YYYY HH:mm:ss");
+        var check = dayjs(item.written_on, asia_time);
         if (check < from || check > to) return false;
         return true;
     })
-    console.log(current_page * FILTER.max_display, (current_page + 1) * FILTER.max_display);
-    for (var i of entry.slice(current_page * FILTER.max_display, current_page * FILTER.max_display + FILTER.max_display)) {
+    // ? Start pos: selected page (default is 0) * maximum page for display (default is 10)
+    // ? End pos: start pos + maximum page for display (default is 10)
+    for (var i of entry.slice(current_page * FILTER.max_display, FILTER.max_display * (current_page + 1))) {
         var item = json_data[i];
         var date = item.written_on.split(" ")[0]
         var template = ""
 
+        // ? If the date is different from the previous one, create a new date header
         if (date != current_time_stamp) {
             current_time_stamp = date
+            // ? Template for the date
             template += `
             <div class="datestamp refreshing">
                 <h2><time datetime="${date}">On ${date}</time></h2>
@@ -71,6 +78,7 @@ async function reloadBlogList() {
             `
         }
 
+        // ? Template for the posts
         template += `
         <a href="reader.html?file=${i}" class="blog_item refreshing">
             <h3>${item.title}</h3>
@@ -113,10 +121,13 @@ getId("search_button")!.addEventListener("click", async () => {
 
     getId("loading")!.style.display = "flex"
     getId("cannot_find")!.style.display = "none"
-    document.querySelectorAll(".refreshing").forEach(e => {e.remove()})
+
+    // ? Delete all the posts
+    document.querySelectorAll(".refreshing").forEach(e => e.remove())
+
     const loaded = await reloadBlogList();
 
-    if (loaded.loaded == 0) {
+    if (loaded.loaded == 0) { // ? Display the "cannot_find" message if there's no post that match the filter
         getId("cannot_find")!.style.display = "block"
         rage_count++;
     } else {
