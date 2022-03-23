@@ -25,7 +25,7 @@ function getParameterByName(name, url = window.location.href) {
         document.getElementById("loading").style.display = "none";
     };
     var filename = (_a = getParameterByName("file")) !== null && _a !== void 0 ? _a : "";
-    var response = yield fetch("../../index.json");
+    var response = yield fetch("index.json");
     var data = yield response.json();
     var json_data = data;
     if (!json_data[filename]) {
@@ -33,7 +33,7 @@ function getParameterByName(name, url = window.location.href) {
         return;
     }
     try {
-        var blogdata = yield fetch(`../../blogs/${json_data[filename].file}`);
+        var blogdata = yield fetch(`blogs/${json_data[filename].file}`);
         var text = yield blogdata.text();
         var converter = new showdown.Converter();
         var html = converter.makeHtml(text);

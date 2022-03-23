@@ -15,7 +15,7 @@ function getParameterByName(name: string, url = window.location.href) {
         document.getElementById("loading")!.style.display = "none"
     }
     var filename = getParameterByName("file") ?? ""
-    var response = await fetch("../../index.json");
+    var response = await fetch("index.json");
     var data = await response.json();
     var json_data: {[name: string]: { title: string, summary: string, written_on: string, file: string }} = data;
     if (!json_data[filename]) {
@@ -23,7 +23,7 @@ function getParameterByName(name: string, url = window.location.href) {
         return;
     }
     try {
-        var blogdata = await fetch(`../../blogs/${json_data[filename].file}`)
+        var blogdata = await fetch(`blogs/${json_data[filename].file}`)
         var text = await blogdata.text()
         //@ts-ignore
         var converter = new showdown.Converter();

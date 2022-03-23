@@ -33,7 +33,7 @@ function reloadBlogList() {
     return __awaiter(this, void 0, void 0, function* () {
         dayjs.extend(dayjs_plugin_customParseFormat);
         var loaded = 0;
-        var response = yield fetch("../../index.json");
+        var response = yield fetch("index.json");
         var data = yield response.json();
         var json_data = data;
         var entry = Object.keys(json_data);

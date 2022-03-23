@@ -31,7 +31,7 @@ async function reloadBlogList() {
     //@ts-ignore
     dayjs.extend(dayjs_plugin_customParseFormat);
     var loaded = 0;
-    var response = await fetch("../../index.json");
+    var response = await fetch("index.json");
     var data = await response.json();
 
     var json_data: {[name: string]: { title: string, summary: string, written_on: string, file: string }} = data;
