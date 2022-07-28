@@ -4,11 +4,5 @@
         "summary": "For everyone reading this, I've created a blog.",
         "written_on": "24-03-2022 14:00:00",
         "file": "first_blog.md"
-    },
-    "quans-week-review---week-1": {
-        "title": "Quan's Week Review - Week 1",
-        "summary": "Welcome to Q-View, where I'll be reviewing what I've done in the last week",
-        "written_on": "24-03-2022 14:00:00",
-        "file": "q-view-1.md"
     }
 }
